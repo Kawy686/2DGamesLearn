@@ -8,12 +8,15 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private LayerMask GroundLayer;
     [SerializeField] private float GroundCheak;
     [SerializeField] private float JumpSpeed;
+    [SerializeField] private float JumpAddTime;
+    [SerializeField] private float JumpAddPower;
+    [SerializeField] private float FallAddPower;
     public Rigidbody2D Rb;//移动通过刚体组件完成 新建一个刚体组件类型的变量rb存储它的引用
     public bool IsGround;
     public AudioSource JumpSound;
     private bool IsJumping;
-    [SerializeField]private float JumpAddTime;
-    [SerializeField]private float JumpAddController;
+    private float JumpAddController;
+    
     void Start()
     {
         Initialization();
@@ -30,6 +33,7 @@ public class PlayerJump : MonoBehaviour
             JumpSound.Play();
             Rb.velocity = new Vector2(Rb.velocity.x, JumpSpeed);//跳跃
             IsJumping = true;//跳跃手感优化
+            JumpAddController = 0;
         }
         IsGround = Physics2D.Raycast(transform.position, Vector2.down, GroundCheak, GroundLayer);//地面检测——利用射线检测,让玩家在离开地面后无法再次跳跃.
         
@@ -40,12 +44,12 @@ public class PlayerJump : MonoBehaviour
 
         if (!IsJumping)
         {
-            Rb.velocity -= new Vector2(0, -Physics2D.gravity.y/*获取引擎物理设置内的重力数值*/ * Time.deltaTime);
+            Rb.velocity -= new Vector2(0, -Physics2D.gravity.y/*获取引擎物理设置内的重力数值*/ * Time.deltaTime * FallAddPower);
         }//用于跳跃手感优化,当玩家没有按下跳跃按键的时候,在Y轴添加一个向下的力
 
         if (IsJumping && JumpAddController < JumpAddTime)
         {   
-            Rb.velocity += new Vector2(0, -Physics2D.gravity.y * Time.deltaTime);
+            Rb.velocity += new Vector2(0, -Physics2D.gravity.y * Time.deltaTime * JumpAddPower);
             JumpAddController += Time.deltaTime;
         }
 
