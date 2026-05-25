@@ -30,7 +30,7 @@ public class PlayerAnime : MonoBehaviour
         {
             E_State = Anim.jump;
         }
-        if(PlayerJump.Rb.velocity.y < -0.3f)
+        if(PlayerJump.Rb.velocity.y < -0.3f && !PlayerJump.IsGround)
         {  
             E_State = Anim.fall; 
         }
