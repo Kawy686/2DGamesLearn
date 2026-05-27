@@ -17,6 +17,7 @@ public class PlayerJump : MonoBehaviour
     private bool IsJumping;//用于跳跃手感优化,判定是否在进行跳跃,如果为true给Rb一个下坠值.
     private float JumpAddController;
     private bool IsCanAirJump;
+    private PlayerAnime PlayerAnimeScript;
     
     void Start()
     {
@@ -65,6 +66,7 @@ public class PlayerJump : MonoBehaviour
             IsJumping = true;
             JumpAddController = 0;
             IsCanAirJump = false;
+            PlayerAnimeScript.AirJumpAnimeUpdate();//二段跳动画播放
         }
 
     }
@@ -72,6 +74,7 @@ public class PlayerJump : MonoBehaviour
     private void Initialization()
     {
         Rb = GetComponent<Rigidbody2D>();//利用GetComponent把类的Rigidbody2D初始化
+        PlayerAnimeScript = GetComponent<PlayerAnime>();//初始化,获取玩家动画同步脚本的引用
     }
     private void OnDrawGizmos()//Debug用,可以绘制某些数值
     {

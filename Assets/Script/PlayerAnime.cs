@@ -36,4 +36,10 @@ public class PlayerAnime : MonoBehaviour
         }
         Anime.SetInteger("States", (int)E_State);//将脚本变量通过SetInteger传给动画状态机.由于动画状态机类的变量类型为int,需要在枚举前进行一次强制类型转换.
     }
+
+    public void AirJumpAnimeUpdate()
+    {
+        Anime.SetTrigger("IsAirJump");
+    }
+ 
 }
